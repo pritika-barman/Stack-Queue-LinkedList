@@ -1,0 +1,121 @@
+"""
+Part 1: 
+Finish creating the linked list class below) with the following methods:
+  a. insert(index, item): Inserts an item at the specified index.
+  b. remove(index): Removes and returns the item at the specified index.
+  c. get(index): Returns the item at the specified index without removing it.
+  d. Create a linked list and test all the methods you just added.
+------------------------------------------------------------------------------------------------------------------------
+Part 2: Simulations - Write 3 functions for each scenario described below. 
+For each function, execute a set number of operations and measure the time it takes to complete each task using each data structure.
+In your print statements, explain what is being printed, using what data structure.
+
+a. Simulate a task where items are frequently added and removed in a LIFO manner. (Use runestone printer / potato examples)
+Example: Browser history navigation where the most recently visited page is the first to be removed.
+Run this task using Stack, Queue, and Linked List.
+Print the time it takes to push and pop a set number of elements (e.g., 1,000,000 elements).
+Make sure to explain what the simulation was as well.
+------------------------------------------------------------------------------------------------------------------------
+b. Simulate a task where items need to be added and removed in a FIFO manner.
+Example: A print job queue where the first submitted job should be processed first.
+Run this task using Stack, Queue, and Linked List.
+Print the time it takes to enqueue and dequeue a set number of elements.
+Make sure to explain what the simulation was as well.
+------------------------------------------------------------------------------------------------------------------------
+c. Simulate a task where items need to be accessed, added, and removed at various random positions.
+Example: Music playlist where songs are played, added, or removed at random positions.
+Run this task using Linked List and Stack (using insert for Linked List, push for Stack).
+Record the time it takes to perform random insert, get, and remove operations.
+
+------------------------------------------------------------------------------------------------------------------------
+
+Part 3: Analysis and Report
+For each simulation scenario:
+
+Record the time taken by each data structure to complete the operations.
+Compare the efficiency of each data structure in each scenario.
+Answer the following questions:
+a. Which data structure performed the best in each scenario?
+b. What makes one data structure more suitable than the others in each case?
+c. How does the efficiency of each structure change with the size of the data (try varying data sizes)?
+------------------------------------------------------------------------------------------------------------------------
+"""
+import time
+import random
+
+class Stack:
+    def __init__(self):
+        self.stack = []
+
+    def push(self, item):
+        self.stack.append(item)
+
+    def pop(self):
+        if not self.is_empty():
+            return self.stack.pop()
+        raise IndexError("Pop from empty stack")
+
+    def peek(self):
+        if not self.is_empty():
+            return self.stack[-1]
+        raise IndexError("Peek from empty stack")
+
+    def is_empty(self):
+        return len(self.stack) == 0
+
+
+class Queue:
+    def __init__(self):
+        self.queue = []
+
+    def enqueue(self, item):
+        self.queue.append(item)
+
+    def dequeue(self):
+        if not self.is_empty():
+            return self.queue.pop(0)
+        raise IndexError("Dequeue from empty queue")
+
+    def peek(self):
+        if not self.is_empty():
+            return self.queue[0]
+        raise IndexError("Peek from empty queue")
+
+    def is_empty(self):
+        return len(self.queue) == 0
+
+
+class LinkedListNode:
+    def __init__(self, data=None):
+        self.data = data
+        self.next = None
+
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+        self.size = 0
+
+    def append(self, item):
+        new_node = LinkedListNode(item)
+        if not self.head:
+            self.head = new_node
+        else:
+            current = self.head
+            while current.next:
+                current = current.next
+            current.next = new_node
+        self.size += 1
+
+    #If you try to insert, remove, or get the index past the amount of values in your linked list, raise an exception "Position out of bounds"
+    def insert(self, index, item):
+        # Implement insertion at a specific index
+        pass
+
+    def remove(self, index):
+        # Implement removal at a specific index
+        pass
+
+    def get(self, index):
+        # Implement retrieval at a specific index
+        pass
