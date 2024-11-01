@@ -1,12 +1,12 @@
 """
-Part 1: 
+Part 1:
 Finish creating the linked list class below) with the following methods:
   a. insert(index, item): Inserts an item at the specified index.
   b. remove(index): Removes and returns the item at the specified index.
   c. get(index): Returns the item at the specified index without removing it.
   d. Create a linked list and test all the methods you just added.
 ------------------------------------------------------------------------------------------------------------------------
-Part 2: Simulations - Write 3 functions for each scenario described below. 
+Part 2: Simulations - Write 3 functions for each scenario described below.
 For each function, execute a set number of operations and measure the time it takes to complete each task using each data structure.
 In your print statements, explain what is being printed, using what data structure.
 
@@ -90,11 +90,21 @@ class LinkedListNode:
         self.data = data
         self.next = None
 
+    def __repr__(self):
+        return str(self.data)
 
 class LinkedList:
     def __init__(self):
         self.head = None
         self.size = 0
+
+    def __repr__(self):
+        nodes = []
+        current = self.head
+        while current:
+          nodes.append(str(current))
+          current = current.next
+        return str(nodes)
 
     def append(self, item):
         new_node = LinkedListNode(item)
@@ -110,12 +120,113 @@ class LinkedList:
     #If you try to insert, remove, or get the index past the amount of values in your linked list, raise an exception "Position out of bounds"
     def insert(self, index, item):
         # Implement insertion at a specific index
-        pass
+        if(index>self.size or index<0):
+            raise IndexError("Position out of bounds")
+        else:
+            new_node = LinkedListNode(item)
+            if index==0:
+                new_node.next = self.head
+                self.head = new_node
+            else:
+                current = self.head
+                for i in range(index-1):
+                    current = current.next
+                new_node.next = current.next
+                current.next = new_node
+            self.size += 1
+
 
     def remove(self, index):
         # Implement removal at a specific index
-        pass
+        if(index>self.size or index<0):
+            raise IndexError("Position out of bounds")
+        else:
+            if index==0:
+              self.head = self.head.next
+            else:
+              current = self.head
+              for i in range(index-1):
+                current = current.next
+              next_node = current.next
+              current.next = next_node.next
+            self.size -= 1
+                
 
     def get(self, index):
         # Implement retrieval at a specific index
-        pass
+        if(index>self.size or index<0):
+            raise IndexError("Position out of bounds")
+        else:
+            current = self.head
+            for i in range(index):
+              current = current.next
+            return current
+
+
+def testLinkedList():
+  node = LinkedListNode(8)
+  print(node)
+  test = LinkedList()
+  test.append(3)
+  test.append(1)
+  test.append(4)
+  test.insert(2,9)
+  test.insert(0,7)
+  print(test)
+  test.remove(1)
+  print(test)
+  test.remove(2)
+  print(test)
+  print(test.get(2))
+
+def lifo_Simulation(n):
+    startTime = time.time() #Gets computer time down to the nano second
+    stack = Stack()
+    for i in range(n):
+      stack.push(i)
+    for i in range(n):
+      stack.pop()
+    endTime = time.time()
+    print(f'Stack LIFO simulation with {n:,} elements, it took {endTime-startTime:4f} seconds')
+
+def fifo_Simulation(n):
+    startTime = time.time()   
+    queue = Queue()
+    for i in range(n):
+      queue.enqueue(i)
+    for i in range(n):
+      queue.dequeue()
+    endTime = time.time()
+    print(f'Stack FIFO simulation with {n:,} elements, it took {endTime-startTime:4f} seconds')
+    #For the test, we needed to change n to 100,000 because the function is O(n^2) since dequeue removes an item from the beginning of the list and has to shift the rest of the list down- this happens within a for loop so it becomes n^2
+
+def linkedList_Simulation(n):
+    link = LinkedList()
+    for i in range(n):
+      link.append(i)
+    startTime = time.time()
+    link.insert(random.randint(0, n-1), 1)
+    link.get(random.randint(0, n))
+    link.remove(random.randint(0, n))
+    endTime = time.time()
+    print(f'Linked list simulation with {n:,} elements, it took {endTime-startTime:4f} seconds')
+
+"""
+Part 3:
+a) For the LIFO simulation, Stacks performed the best. For FIFO, Queues performed the best. For the last simulation, LinkedLists performed the best.
+b) For the LIFO simulation, Stacks worked best because the last element added is the first out, so taking out an element would be O(1), 
+while for a Queue, it would be O(N) since the first element in is the first out. For the FIFO simulation, 
+Queues worked the best because the first element in is the first out and removing the first element would be O(1), 
+while using a Stack would be O(N) since the first element in is the last one out. For the last simulation LinkedLists worked best
+because removing and inserting elements is easier.
+c) The efficiency of each data structure decreases as the size of the data increases.
+"""
+                                        
+
+#testLinkedList()
+lifo_Simulation(10000)
+fifo_Simulation(10000)
+linkedList_Simulation(10000)
+lifo_Simulation(20000)
+fifo_Simulation(20000)
+linkedList_Simulation(20000)
